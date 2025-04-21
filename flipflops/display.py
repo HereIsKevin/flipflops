@@ -120,13 +120,12 @@ class Display(QObject):
 
         while self._port.canReadLine():
             line = bytes(self._port.readLine().data()).removesuffix(b"\n")
+            self.on_read.emit(line)
 
             if line == b"ready":
                 self.on_ready.emit()
             elif line == b"done":
                 self.on_done.emit()
-
-            self.on_read.emit(line)
 
     @Slot(QSerialPort.SerialPortError)
     def _handle_error(self, error: QSerialPort.SerialPortError) -> None:

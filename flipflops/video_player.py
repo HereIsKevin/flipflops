@@ -133,7 +133,10 @@ class VideoPlayer(QWidget):
 
     @Slot()
     def _handle_ready(self) -> None:
-        self._ready = True
+        if self._media is not None and self._media.isPlaying():
+            self._write_display()
+        else:
+            self._ready = True
 
     @Slot()
     def _handle_open(self) -> None:
@@ -223,8 +226,8 @@ class VideoPlayer(QWidget):
         assert self._total_time is not None
 
         if self._ready and self._media.isPlaying():
-            self._write_display()
             self._ready = False
+            self._write_display()
 
         rest = round(position / 1000)
         rest, seconds = divmod(rest, 60)
