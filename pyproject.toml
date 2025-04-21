@@ -1,9 +1,7 @@
 [project]
 name = "flipflops"
 version = "0.1.0"
-authors = [
-    { name = "Kevin Feng" }
-]
+authors = [{ name = "Kevin Feng" }]
 description = "Control 6x6 flip disc displays powered by Flippy."
 readme = "README.md"
 license = "LicenseRef-Proprietary"

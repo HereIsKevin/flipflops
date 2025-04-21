@@ -4,6 +4,8 @@ from PySide6.QtCore import Qt, Slot
 from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QTabWidget
 
+import rc_flipflops
+from flipflops.bad_apple import BadApple
 from flipflops.console import Console
 from flipflops.display import Display
 from flipflops.tool_bar import ToolBar
@@ -33,21 +35,28 @@ class FlipFlops(QMainWindow):
         self.addToolBar(tool_bar)
 
         self._tabs: QTabWidget = QTabWidget(documentMode=True)
-        self._tabs.setEnabled(False)
 
-        video_player = VideoPlayer(0, display)
-        self._tabs.currentChanged.connect(video_player.handle_switch)
-        self._tabs.addTab(video_player, "Video Player")
+        self._video_player: VideoPlayer = VideoPlayer(0, display)
+        self._video_player.setEnabled(False)
+        self._tabs.currentChanged.connect(self._video_player.handle_switch)
+        self._tabs.addTab(self._video_player, "Video Player")
+
+        self._bad_apple: BadApple = BadApple(1, display)
+        self._bad_apple.setEnabled(False)
+        self._tabs.currentChanged.connect(self._bad_apple.handle_switch)
+        self._tabs.addTab(self._bad_apple, "Bad Apple!!")
 
         self.setCentralWidget(self._tabs)
 
     @Slot()
     def _handle_open(self) -> None:
-        self._tabs.setEnabled(True)
+        self._video_player.setEnabled(True)
+        self._bad_apple.setEnabled(True)
 
     @Slot()
     def _handle_close(self) -> None:
-        self._tabs.setEnabled(False)
+        self._video_player.setEnabled(False)
+        self._bad_apple.setEnabled(False)
 
     @Slot(QSerialPort.SerialPortError)
     def _handle_display_error(self, error: QSerialPort.SerialPortError) -> None:
