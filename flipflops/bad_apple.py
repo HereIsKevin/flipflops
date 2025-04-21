@@ -5,8 +5,7 @@ import math
 import time
 from typing import cast
 
-from PySide6.QtCore import QFile, Slot
-from PySide6.QtGui import Qt
+from PySide6.QtCore import QFile, Qt, Slot
 from PySide6.QtWidgets import QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
 from flipflops.display import Display

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 
 from PySide6.QtCore import Qt, Slot
@@ -8,6 +10,7 @@ import rc_flipflops
 from flipflops.bad_apple import BadApple
 from flipflops.console import Console
 from flipflops.display import Display
+from flipflops.paint import Paint
 from flipflops.tool_bar import ToolBar
 from flipflops.video_player import VideoPlayer
 
@@ -20,7 +23,7 @@ class FlipFlops(QMainWindow):
             self.setUnifiedTitleAndToolBarOnMac(True)
 
         self.setWindowTitle("FlipFlops")
-        self.setMinimumSize(800, 700)
+        self.setMinimumSize(500, 700)
 
         display = Display()
         display.on_open.connect(self._handle_open)
@@ -46,17 +49,23 @@ class FlipFlops(QMainWindow):
         self._tabs.currentChanged.connect(self._bad_apple.handle_switch)
         self._tabs.addTab(self._bad_apple, "Bad Apple!!")
 
+        self._paint: Paint = Paint(display)
+        self._paint.setEnabled(False)
+        self._tabs.addTab(self._paint, "Paint")
+
         self.setCentralWidget(self._tabs)
 
     @Slot()
     def _handle_open(self) -> None:
         self._video_player.setEnabled(True)
         self._bad_apple.setEnabled(True)
+        self._paint.setEnabled(True)
 
     @Slot()
     def _handle_close(self) -> None:
         self._video_player.setEnabled(False)
         self._bad_apple.setEnabled(False)
+        self._paint.setEnabled(False)
 
     @Slot(QSerialPort.SerialPortError)
     def _handle_display_error(self, error: QSerialPort.SerialPortError) -> None:
