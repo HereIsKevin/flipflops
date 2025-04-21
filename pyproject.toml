@@ -1,0 +1,39 @@
+[project]
+name = "flipflops"
+version = "0.1.0"
+authors = [
+    { name = "Kevin Feng" }
+]
+description = "Control 6x6 flip disc displays powered by Flippy."
+readme = "README.md"
+license = "LicenseRef-Proprietary"
+requires-python = ">=3.13"
+dependencies = [
+    "pyside6>=6.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "black>=25.1.0",
+    "isort>=6.0.1",
+    "mypy>=1.15.0",
+    "pip>=25.0.1",
+    "tomlkit>=0.13.2",
+]
+
+[tool.black]
+preview = true
+
+[tool.isort]
+profile = "black"
+
+[tool.pyside6-project]
+files = [
+    "./main.py",
+    "./flipflops.qrc",
+    "./flipflops/bad_apple,py",
+    "./flipflops/console.py",
+    "./flipflops/display.py",
+    "./flipflops/tool_bar.py",
+    "./flipflops/video_player.py",
+]
