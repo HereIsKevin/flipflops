@@ -91,7 +91,7 @@ class SnakeGame(QWidget):
         right.activated.connect(self._direction_handler(_Direction.RIGHT))
 
         start = QShortcut(QKeySequence(Qt.Key.Key_Return), self)
-        start.activated.connect(self._handle_start_stop)
+        start.activated.connect(self._handle_start)
 
         self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
 
@@ -145,6 +145,11 @@ class SnakeGame(QWidget):
         self._starting = False
         self._start_stop.setText("Start")
         self._start_stop.setEnabled(False)
+
+    @Slot()
+    def _handle_start(self) -> None:
+        if self.hasFocus():
+            self._handle_start_stop()
 
     @Slot()
     def _handle_start_stop(self) -> None:
