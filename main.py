@@ -23,7 +23,7 @@ class FlipFlops(QMainWindow):
             self.setUnifiedTitleAndToolBarOnMac(True)
 
         self.setWindowTitle("FlipFlops")
-        self.setMinimumSize(500, 700)
+        self.setMinimumSize(650, 850)
 
         display = Display()
         display.on_open.connect(self._handle_open)
