@@ -127,12 +127,16 @@ class VideoPlayer(QWidget):
 
     @Slot()
     def _handle_close(self) -> None:
+        self._play_pause.setEnabled(False)
+
         if self._media is not None:
             self._play_pause.setText("Play")
             self._media.pause()
 
     @Slot()
     def _handle_ready(self) -> None:
+        self._play_pause.setEnabled(True)
+
         if self._media is not None and self._media.isPlaying():
             self._write_display()
         else:
@@ -158,7 +162,6 @@ class VideoPlayer(QWidget):
 
         self._media.pause()
         self._media.setSource(url)
-        self._play_pause.setEnabled(True)
         self._play_pause.setText("Play")
         self._seek_slider.setEnabled(True)
         self._seek_slider.setValue(0)

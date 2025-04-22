@@ -25,7 +25,7 @@ class Paint(QWidget):
         grid.setColumnStretch(0, 1)
         grid.setColumnStretch(2, 1)
 
-        self._canvas: Canvas = Canvas()
+        self._canvas: _Canvas = _Canvas()
         self._canvas.on_display.connect(self._handle_display)
         grid.addWidget(self._canvas, 2, 1)
 
@@ -69,7 +69,7 @@ class Paint(QWidget):
         self._display_button.setEnabled(False)
 
 
-class Canvas(QWidget):
+class _Canvas(QWidget):
     on_display: Signal = Signal()
 
     def __init__(self) -> None:
@@ -81,7 +81,7 @@ class Canvas(QWidget):
         self.setContentsMargins(30, 30, 30, 30)
         self.setStyleSheet(
             """
-            Canvas {
+            _Canvas {
                 background-color: black;
 
                 border-style: solid;
@@ -198,7 +198,7 @@ class Canvas(QWidget):
 
                     border-color: gold;
                     border-width: 6px;
-                """
+                    """
                 )
             else:
                 button.setStyleSheet("")

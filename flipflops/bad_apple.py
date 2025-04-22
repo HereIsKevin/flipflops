@@ -61,6 +61,7 @@ class BadApple(QWidget):
         hbox.setContentsMargins(0, 0, 0, 0)
         hbox.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self._start_stop: QPushButton = QPushButton("Start")
+        self._start_stop.setEnabled(False)
         self._start_stop.setFixedWidth(self._start_stop.sizeHint().width())
         self._start_stop.clicked.connect(self._handle_start_stop)
         hbox.addWidget(self._start_stop)
@@ -79,6 +80,8 @@ class BadApple(QWidget):
 
     @Slot()
     def _handle_ready(self) -> None:
+        self._start_stop.setEnabled(True)
+
         if not self._playing:
             self._ready = True
             return
@@ -101,6 +104,7 @@ class BadApple(QWidget):
     @Slot()
     def _handle_close(self) -> None:
         self._playing = False
+        self._start_stop.setEnabled(False)
         self._start_stop.setText("Start")
 
     @Slot()

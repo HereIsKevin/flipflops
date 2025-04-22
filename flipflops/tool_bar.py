@@ -34,9 +34,11 @@ class ToolBar(QToolBar):
         super().__init__(movable=False)
 
         if self.style().name() == "macos":
-            margins = self.contentsMargins()
-            margins.setRight(5)
-            self.setContentsMargins(margins)
+            self.setContentsMargins(0, 0, 5, 0)
+            self.setStyleSheet("QToolBar { spacing: 0px; }")
+        else:
+            self.setContentsMargins(0, 0, 0, 0)
+            self.setStyleSheet("QToolBar { padding: 5px; spacing: 5px; }")
 
         self._display: Display = display
         self._display.on_open.connect(self._handle_display_open)
