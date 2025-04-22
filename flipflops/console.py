@@ -24,8 +24,10 @@ class Console(QDockWidget):
     def __init__(self, display: Display) -> None:
         super().__init__(
             "Console",
-            allowedAreas=Qt.DockWidgetArea.BottomDockWidgetArea,
-            features=QDockWidget.DockWidgetFeature.NoDockWidgetFeatures,
+            allowedAreas=Qt.DockWidgetArea.BottomDockWidgetArea
+            | Qt.DockWidgetArea.RightDockWidgetArea,
+            features=QDockWidget.DockWidgetFeature.NoDockWidgetFeatures
+            | QDockWidget.DockWidgetFeature.DockWidgetMovable,
         )
 
         self._display: Display = display

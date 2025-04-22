@@ -1,3 +1,7 @@
+# TODO: Implement something like https://stackoverflow.com/a/8736705 to save
+#       window positioning state.
+# TODO: Save current tab and console toggle state.
+
 from __future__ import annotations
 
 import sys
@@ -24,7 +28,7 @@ class FlipFlops(QMainWindow):
             self.setUnifiedTitleAndToolBarOnMac(True)
 
         self.setWindowTitle("FlipFlops")
-        self.setMinimumSize(650, 850)
+        self.setMinimumSize(750, 850)
 
         display = Display()
         display.on_open.connect(self._handle_open)
