@@ -36,14 +36,14 @@ class Display(QObject):
                     return b"1"
 
     class Dot(Enum):
-        Black = auto()
-        White = auto()
+        BLACK = auto()
+        WHITE = auto()
 
         def __bytes__(self) -> bytes:
             match self:
-                case Display.Dot.Black:
+                case Display.Dot.BLACK:
                     return b"0"
-                case Display.Dot.White:
+                case Display.Dot.WHITE:
                     return b"1"
 
     on_open: Signal = Signal()

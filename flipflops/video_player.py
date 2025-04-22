@@ -93,6 +93,8 @@ class VideoPlayer(QWidget):
 
         self.setLayout(vbox)
 
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+
     @Slot()
     def handle_switch(self, index: int) -> None:
         if index != self._index and self._media is not None:
@@ -121,7 +123,7 @@ class VideoPlayer(QWidget):
         # TODO: Clean this up, precalculate all frames for performance
         points = (divmod(i, 6) for i in range(36))
         grays = (qGray(image.pixel(x, y)) for y, x in points)
-        dots = [Display.Dot.Black if gray == 0 else Display.Dot.White for gray in grays]
+        dots = [Display.Dot.BLACK if gray == 0 else Display.Dot.WHITE for gray in grays]
 
         self._display.write_display(dots)
 
@@ -185,7 +187,7 @@ class VideoPlayer(QWidget):
         self._seek_label.setMaximumWidth((1 << 24) - 1)  # QWIDGETSIZE_MAX
 
         # TODO: Improve error popup.
-        QMessageBox.critical(self, "FlipFlops", f"{error.name}: {message}.")
+        QMessageBox.critical(self, "Video Player", f"{error.name}: {message}.")
 
     @Slot()
     def _handle_play_pause(self) -> None:

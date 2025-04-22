@@ -71,6 +71,8 @@ class BadApple(QWidget):
 
         self.setLayout(vbox)
 
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
+
     @Slot()
     def handle_switch(self, index: int) -> None:
         if index != self._index:

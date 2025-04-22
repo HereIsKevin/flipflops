@@ -1,6 +1,9 @@
+# TODO: Make game better in general and have better messages.
+
 from __future__ import annotations
 
 from collections.abc import Callable
+from typing import cast
 
 from PySide6.QtCore import Qt, Signal, Slot
 from PySide6.QtGui import QKeySequence, QShortcut
@@ -170,7 +173,7 @@ class _Canvas(QWidget):
 
     def dots(self) -> list[Display.Dot]:
         return [
-            Display.Dot.White if button.isChecked() else Display.Dot.Black
+            Display.Dot.WHITE if button.isChecked() else Display.Dot.BLACK
             for button in self._buttons
         ]
 
@@ -181,7 +184,7 @@ class _Canvas(QWidget):
             self._col = col
             self._update_focus()
 
-        return handle
+        return cast(Callable[[], None], handle)
 
     def _update_focus(self) -> None:
         for index, button in enumerate(self._buttons):

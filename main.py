@@ -11,6 +11,7 @@ from flipflops.bad_apple import BadApple
 from flipflops.console import Console
 from flipflops.display import Display
 from flipflops.paint import Paint
+from flipflops.snake_game import SnakeGame
 from flipflops.tool_bar import ToolBar
 from flipflops.video_player import VideoPlayer
 
@@ -53,6 +54,11 @@ class FlipFlops(QMainWindow):
         self._paint.setEnabled(False)
         self._tabs.addTab(self._paint, "Paint")
 
+        self._snake_game: SnakeGame = SnakeGame(3, display)
+        self._snake_game.setEnabled(False)
+        self._tabs.currentChanged.connect(self._snake_game.handle_switch)
+        self._tabs.addTab(self._snake_game, "Snake Game")
+
         self.setCentralWidget(self._tabs)
 
     @Slot()
@@ -60,12 +66,14 @@ class FlipFlops(QMainWindow):
         self._video_player.setEnabled(True)
         self._bad_apple.setEnabled(True)
         self._paint.setEnabled(True)
+        self._snake_game.setEnabled(True)
 
     @Slot()
     def _handle_close(self) -> None:
         self._video_player.setEnabled(False)
         self._bad_apple.setEnabled(False)
         self._paint.setEnabled(False)
+        self._snake_game.setEnabled(False)
 
     @Slot(QSerialPort.SerialPortError)
     def _handle_display_error(self, error: QSerialPort.SerialPortError) -> None:

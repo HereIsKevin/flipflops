@@ -32,6 +32,8 @@ files = [
     "./flipflops/bad_apple,py",
     "./flipflops/console.py",
     "./flipflops/display.py",
+    "./flipflops/paint.py",
+    "./flipflops/snake_game.py",
     "./flipflops/tool_bar.py",
     "./flipflops/video_player.py",
 ]
