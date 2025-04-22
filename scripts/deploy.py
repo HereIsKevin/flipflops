@@ -1,8 +1,15 @@
+#!/usr/bin/env -S uv run --script
+
 import plistlib
+import shutil
+import subprocess
 from pathlib import Path
 
-PLIST = Path(__file__).parent.parent / "dist/FlipFlops.app/Contents/Info.plist"
+DIST = Path(__file__).parent.parent / "dist"
+PLIST = DIST / "FlipFlops.app/Contents/Info.plist"
 
+shutil.rmtree(DIST, ignore_errors=True)
+subprocess.run(["uv", "run", "pyside6-project", "deploy"])
 
 with PLIST.open("rb") as file:
     info = plistlib.load(file)
