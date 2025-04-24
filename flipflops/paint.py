@@ -113,7 +113,7 @@ class _Canvas(QWidget):
             QPushButton:checked {
                 background-color: white;
             }
-        """
+            """
         )
 
         self._row: int = 0
