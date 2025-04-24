@@ -9,7 +9,10 @@ from pathlib import Path
 
 from dmgbuild import build_dmg
 
-if platform.system() != "Darwin":
+SYSTEM = platform.system().lower()
+MACHINE = platform.machine().lower()
+
+if SYSTEM != "darwin":
     raise RuntimeError("Deploying is only supported on macOS.")
 
 ROOT = Path(__file__).parent.parent
@@ -23,7 +26,7 @@ with (ROOT / "pyproject.toml").open("rb") as file:
 shutil.rmtree(DIST, ignore_errors=True)
 subprocess.run(["uv", "run", "pyside6-project", "clean"])
 subprocess.run(["uv", "run", "pyside6-project", "build"])
-subprocess.run(["uv", "run", "pyside6-project", "deploy"])
+subprocess.run(["uv", "run", "pyside6-project", "deploy"], input=b"y")
 
 with PLIST.open("rb") as file:
     info = plistlib.load(file)
@@ -35,7 +38,7 @@ with PLIST.open("wb") as file:
     plistlib.dump(info, file)
 
 build_dmg(
-    filename=str(DIST / f"flipflops-v{VERSION}.dmg"),
+    filename=str(DIST / f"flipflops-v{VERSION}-{SYSTEM}-{MACHINE}.dmg"),
     volume_name="FlipFlops",
     settings={
         "files": [str(APP)],
