@@ -6,7 +6,8 @@ from __future__ import annotations
 
 import sys
 
-from PySide6.QtCore import Qt, Slot
+from PySide6.QtCore import QPoint, QRect, Qt, Slot
+from PySide6.QtGui import QScreen
 from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QTabWidget
 
@@ -15,6 +16,7 @@ from flipflops.bad_apple import BadApple
 from flipflops.console import Console
 from flipflops.display import Display
 from flipflops.paint import Paint
+from flipflops.randomize import Randomize
 from flipflops.snake_game import SnakeGame
 from flipflops.tool_bar import ToolBar
 from flipflops.video_player import VideoPlayer
@@ -54,11 +56,16 @@ class FlipFlops(QMainWindow):
         self._tabs.currentChanged.connect(self._bad_apple.handle_switch)
         self._tabs.addTab(self._bad_apple, "Bad Apple!!")
 
+        self._randomize: Randomize = Randomize(2, display)
+        self._randomize.setEnabled(False)
+        self._tabs.currentChanged.connect(self._randomize.handle_switch)
+        self._tabs.addTab(self._randomize, "Randomize")
+
         self._paint: Paint = Paint(display)
         self._paint.setEnabled(False)
         self._tabs.addTab(self._paint, "Paint")
 
-        self._snake_game: SnakeGame = SnakeGame(3, display)
+        self._snake_game: SnakeGame = SnakeGame(4, display)
         self._snake_game.setEnabled(False)
         self._tabs.currentChanged.connect(self._snake_game.handle_switch)
         self._tabs.addTab(self._snake_game, "Snake Game")
@@ -69,6 +76,7 @@ class FlipFlops(QMainWindow):
     def _handle_open(self) -> None:
         self._video_player.setEnabled(True)
         self._bad_apple.setEnabled(True)
+        self._randomize.setEnabled(True)
         self._paint.setEnabled(True)
         self._snake_game.setEnabled(True)
 
@@ -76,6 +84,7 @@ class FlipFlops(QMainWindow):
     def _handle_close(self) -> None:
         self._video_player.setEnabled(False)
         self._bad_apple.setEnabled(False)
+        self._randomize.setEnabled(False)
         self._paint.setEnabled(False)
         self._snake_game.setEnabled(False)
 
@@ -94,5 +103,10 @@ if __name__ == "__main__":
 
     flip_flops = FlipFlops()
     flip_flops.show()
+
+    flip_flops.move(
+        flip_flops.screen().geometry().center()
+        - QRect(QPoint(0, 50), flip_flops.frameGeometry().size()).center()
+    )
 
     sys.exit(app.exec())

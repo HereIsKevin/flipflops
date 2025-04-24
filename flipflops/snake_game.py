@@ -44,7 +44,7 @@ class SnakeGame(QWidget):
         self._display.on_done.connect(self._handle_ready)
         self._display.on_close.connect(self._handle_close)
 
-        self._cells: list[_Cell] = [_Cell.EMPTY for _ in range(36)]
+        self._cells: list[_Cell] = [_Cell.EMPTY] * 36
         self._direction: _Direction = _Direction.RIGHT
 
         self._snake: list[int] = []
@@ -167,7 +167,7 @@ class SnakeGame(QWidget):
                 f"You Stopped the Game :|\nApples Eaten: {self._eaten}",
             )
         else:
-            self._cells = [_Cell.EMPTY for _ in range(36)]
+            self._cells = [_Cell.EMPTY] * 36
             self._snake = [2 * 6 + 2, 2 * 6 + 3]
 
             for cell in self._snake:
