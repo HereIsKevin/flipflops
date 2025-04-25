@@ -29,11 +29,14 @@ class _PortSelect(QComboBox):
 
 class ToolBar(QToolBar):
     on_console_toggle: Signal = Signal(bool)
+    on_instructions_toggle: Signal = Signal(bool)
 
     def __init__(self, display: Display) -> None:
         super().__init__(movable=False)
 
-        if self.style().name() == "macos":
+        style_name = self.style().name()
+
+        if style_name == "macos":
             self.setContentsMargins(0, 0, 5, 0)
             self.setStyleSheet("QToolBar { spacing: 0px; }")
         else:
@@ -67,6 +70,17 @@ class ToolBar(QToolBar):
         self._console_toggle.clicked.connect(self._handle_console_toggle)
         self.addWidget(self._console_toggle)
 
+        if style_name == "macos":
+            spacer = QWidget()
+            spacer.setFixedWidth(5)
+            self.addWidget(spacer)
+
+        self._instructions_toggle: QPushButton = QPushButton("Instructions")
+        self._instructions_toggle.setCheckable(True)
+        self._instructions_toggle.setChecked(False)
+        self._instructions_toggle.clicked.connect(self._handle_instructions_toggle)
+        self.addWidget(self._instructions_toggle)
+
     @Slot()
     def _handle_display_open(self) -> None:
         self._display_toggle.setEnabled(True)
@@ -94,3 +108,7 @@ class ToolBar(QToolBar):
     @Slot()
     def _handle_console_toggle(self) -> None:
         self.on_console_toggle.emit(self._console_toggle.isChecked())
+
+    @Slot()
+    def _handle_instructions_toggle(self) -> None:
+        self.on_instructions_toggle.emit(self._instructions_toggle.isChecked())

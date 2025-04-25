@@ -2,5 +2,6 @@
 <RCC version="1.0">
     <qresource>
         <file>./resources/bad_apple.json</file>
+        <file>./resources/instructions.html</file>
     </qresource>
 </RCC>

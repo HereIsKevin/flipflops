@@ -7,7 +7,7 @@ from __future__ import annotations
 import sys
 
 from PySide6.QtCore import QPoint, QRect, Qt, Slot
-from PySide6.QtGui import QScreen
+from PySide6.QtGui import QKeySequence, QShortcut
 from PySide6.QtSerialPort import QSerialPort
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QTabWidget
 
@@ -15,6 +15,7 @@ import rc_flipflops
 from flipflops.bad_apple import BadApple
 from flipflops.console import Console
 from flipflops.display import Display
+from flipflops.instructions import Instructions
 from flipflops.paint import Paint
 from flipflops.randomize import Randomize
 from flipflops.snake_game import SnakeGame
@@ -40,8 +41,13 @@ class FlipFlops(QMainWindow):
         console = Console(display)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, console)
 
+        instructions = Instructions()
+        instructions.hide()
+        self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, instructions)
+
         tool_bar = ToolBar(display)
         tool_bar.on_console_toggle.connect(console.setVisible)
+        tool_bar.on_instructions_toggle.connect(instructions.setVisible)
         self.addToolBar(tool_bar)
 
         self._tabs: QTabWidget = QTabWidget(documentMode=True)
@@ -70,7 +76,17 @@ class FlipFlops(QMainWindow):
         self._tabs.currentChanged.connect(self._snake_game.handle_switch)
         self._tabs.addTab(self._snake_game, "Snake Game")
 
+        toggle = QShortcut(QKeySequence(Qt.Key.Key_Backslash), self)
+        toggle.activated.connect(self._handle_toggle)
+
         self.setCentralWidget(self._tabs)
+
+    @Slot()
+    def _handle_toggle(self) -> None:
+        if self._tabs.currentIndex() == 3:
+            self._tabs.setCurrentIndex(4)
+        else:
+            self._tabs.setCurrentIndex(3)
 
     @Slot()
     def _handle_open(self) -> None:
