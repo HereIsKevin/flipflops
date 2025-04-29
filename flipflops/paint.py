@@ -19,6 +19,7 @@ class Paint(QWidget):
         self._display: Display = display
         self._display.on_ready.connect(self._handle_ready)
         self._display.on_done.connect(self._handle_ready)
+        self._display.on_close.connect(self._handle_close)
 
         grid = QGridLayout()
         grid.setSpacing(5)
