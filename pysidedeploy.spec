@@ -8,7 +8,7 @@ icon = ./resources/flipflops.icns
 
 [python]
 python_path = ./.venv/bin/python
-packages = Nuitka==2.6.9
+packages = Nuitka==2.7
 
 [qt]
 
