@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from PySide6.QtCore import Qt, Slot
 from PySide6.QtGui import QImage, qGray
-from PySide6.QtMultimedia import QMediaPlayer
+from PySide6.QtMultimedia import QAudioOutput, QMediaPlayer
 from PySide6.QtMultimediaWidgets import QVideoWidget
 from PySide6.QtWidgets import (
     QFileDialog,
@@ -33,6 +33,7 @@ class VideoPlayer(QWidget):
         self._display.on_done.connect(self._handle_ready)
         self._display.on_close.connect(self._handle_close)
 
+        self._audio: QAudioOutput = QAudioOutput()
         self._media: QMediaPlayer | None = None
         self._was_playing: bool = False
 
@@ -157,6 +158,7 @@ class VideoPlayer(QWidget):
         if self._media is None:
             self._media = QMediaPlayer()
             self._media.setVideoOutput(self._video)
+            self._media.setAudioOutput(self._audio)
             self._media.playingChanged.connect(self._handle_playing_change)
             self._media.durationChanged.connect(self._handle_duration_change)
             self._media.positionChanged.connect(self._handle_position_change)
